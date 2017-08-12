@@ -1,0 +1,19 @@
+{% extends 'layout.html' %}
+{% block title %}Dojo Quotes{% endblock %}
+{% block body %}
+{% load static %}
+<div class="head">
+  <a href="/quotes">Dashboard</a>
+  <a href="/log_out">Logout</a>
+</div>
+<div class="card">
+  <h3>Posts by {{user.name}}</h3>
+  <h3>Count: {{quotes.count}}</h3>
+</div>
+<div class="quotes">
+  {% for quote in quotes %}
+  <h2>{{quote.author}}:</h2>
+  <p>{{quote.quote}}</p>
+  {% endfor %}
+</div>
+{% endblock %}

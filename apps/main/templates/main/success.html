@@ -1,0 +1,59 @@
+{% extends 'layout.html' %}
+{% block title %}Quotes{% endblock %}
+{% block body %}
+{% load static %}
+
+<div>
+  <h1>Welcome, {{user.name}}!</h1>
+  <h3><a href="/log_out">Logout</a></h3>
+</div>
+<div id="quote">
+  <form action="/create" method="post">
+    {% csrf_token %}
+    {% if messages %}
+    {% for message in messages%}
+    <h3 id='error'>{{message}}</h3>
+    {% endfor %}
+    {% endif %}
+    <h4>Contribute a Quote:</h4>
+    <p>Author</p>
+    <input type="text" name="author" placeholder="Who Said It?">
+    <p>Posted by:</p>
+    <input type="text" name="posted_by" placeholder="Who Are You?">
+    <p>Quote:</p>
+    <textarea name="quote" rows="8" cols="80" placeholder="What did they say?"></textarea>
+    <input type="submit" value="Submit">
+  </form>
+</div>
+<div id='quotable'>
+  <h2>Quotable Quotes</h2>
+  {% for quote in quotes %}
+  <div>
+    <p>
+      {{quote.quote}}
+    </p>
+    <h6>--{{quote.author}}</h6>
+    <div>
+      <h5><a href="/user/{{quote.posted_by.id}}">{{quote.posted_by.name}}</a></h5>
+      <a href="/add/{{quote.id}}">Add to my List</a>
+    </div>
+  </div>
+  {% endfor %}
+</div>
+<div id="favourites">
+  <h2>Your Favourites</h2>
+  {% for favourite in favourites %}
+  <div>
+    <p>
+      {{favourite.favourite}}
+    </p>
+    <h6>--{{favourite.author}}</h6>
+    <div>
+      <h5><a href="/user/{{favourite.posted_by.id}}">{{favourite.posted_by.name}}</a></h5>
+      <a href="/remove/{{favourite.id}}">Remove from my List</a>
+    </div>
+  </div>
+  {% endfor %}
+</div>
+
+{% endblock %}
